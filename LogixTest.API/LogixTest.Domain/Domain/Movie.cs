@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LogixTest.Domain.Domain
 {
-    internal class Movie
+    public class Movie
     {
+        [Required]
+        public Guid Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Image{ get; set; } = string.Empty;
+        public int NumberLikes { get; set; }
     }
 }
