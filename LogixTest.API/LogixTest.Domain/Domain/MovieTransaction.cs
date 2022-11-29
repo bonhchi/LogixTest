@@ -8,6 +8,6 @@ namespace LogixTest.Domain.Domain
         public Guid Id { get; set; }
         public string UserName { get; set; } = string.Empty;
         public bool Status { get; set; }
-        public Movie Movie { get; set; }
+        public Movie Movie { get; set; } = new Movie();
     }
 }

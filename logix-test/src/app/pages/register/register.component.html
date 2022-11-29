@@ -1,0 +1,28 @@
+<div class="container-fluid" style="background:#f9f9f9; width: 100%; height: 100vh;">
+  <div class="login mx-auto" style="width: 450px; padding-top: 13%;">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h1 class="text-center" style="color: #333; padding-bottom: 10px;">Đăng kí</h1>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-control form-control-md" formControlName="username"
+          placeholder="Nhập vào username..."
+          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+        >
+        <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+          <div *ngIf="f['username'].errors['required']">Vui lòng nhập vào username</div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control form-control-md" formControlName="email"
+          placeholder="Nhập vào email..."
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+        >
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors['required']">Vui lòng nhập vào email</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Đăng kí</button>
+    </form>
+  </div>
+</div>

@@ -5,9 +5,10 @@ namespace LogixTest.Infrastructure.Repository
 {
     public interface IMovieRepository
     {
-        Task<List<Movie>> Get(string userName);
+        Task<List<Movie>> Get();
         Task<MovieTransaction> GetById(Guid id);
         Task UpdateStatus(MovieTransaction transaction);
+        Task AddStatus(MovieTransaction transaction);
     }
     public class MovieRepository : IMovieRepository
     {
@@ -18,7 +19,7 @@ namespace LogixTest.Infrastructure.Repository
             _context = context;
         }
 
-        public async Task<List<Movie>> Get(string userName)
+        public async Task<List<Movie>> Get()
         {
             var query = await _context.Movies
                 .OrderByDescending(x => x.Title).ToListAsync();
@@ -34,8 +35,13 @@ namespace LogixTest.Infrastructure.Repository
         public Task<MovieTransaction> GetById(Guid id)
         {
             var query = _context.MovieTransactions.FirstOrDefaultAsync(x => x.Id == id);
-            return query ?? null;
+            return query;
         }
 
+        public async Task AddStatus(MovieTransaction transaction)
+        {
+            _context.MovieTransactions.Add(transaction);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -1,0 +1,43 @@
+<div class="home">
+  <nav class="navbar bg-light bg-other">
+    <div class="container">
+      <h3 class="navbar-brand text-color" href="home">Big Star</h3>
+      <div class="login-info">
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Tìm kiếm..." aria-label="Search">
+          <button class="btn btn-warning" type="submit">Tìm</button>
+        </form>
+        <div class="logout">
+          <span class="text-color fs-5">Test</span>
+          <a href="login" class="icon-color" data-toggle="tooltip" title="Đăng xuất">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="card content container mt-4 mb-4">
+    <div class="card-body">
+      <h5 class="card-title text-uppercase mb-4">Danh sách phim hot trong tháng</h5>
+      <div class="row">
+        <div class="col-4 mb-4" *ngFor="let item of filmList">
+          <div class="card">
+            <img src={{item.img}} class="card-img-top" alt="...">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <h5 class="card-title">{{item.title}}</h5>
+                <div class="d-flex align-items-center">
+                  <button class="btn" (click)="onLike(item.id)">
+                    <i class="fa-regular fa-thumbs-up"></i>
+                  <span class="ms-1">{{numLike}}</span>
+                  </button>
+                </div>
+              </div>
+              <p class="card-text">{{item.desc}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

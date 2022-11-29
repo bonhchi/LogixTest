@@ -57,6 +57,7 @@ builder.Services.AddSwaggerGenNewtonsoftSupport();
 builder.Services.AddSqlServer<DataContext>(connectionString);
 
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 builder.Services.AddInfratructure();
 

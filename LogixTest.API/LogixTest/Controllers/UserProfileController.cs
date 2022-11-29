@@ -22,36 +22,60 @@ namespace LogixTest.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto input)
         {
-            var data = await _userProfileService.Login(input);
+            try
+            {
+                var data = await _userProfileService.Login(input);
 
-            if (data == LoginConstants.UserNotFound)
+                if (data == LoginConstants.UserNotFound)
+                {
+                    return BadRequest(new ErrorDto
+                    {
+                        Code = "Error",
+                        Message = LoginConstants.UserNotFound
+                    });
+                }
+
+                if (data == LoginConstants.WrongPassword)
+                {
+                    return BadRequest(new ErrorDto
+                    {
+                        Code = "Error",
+                        Message = LoginConstants.WrongPassword
+                    });
+                }
+
+                return Ok(new ErrorDto { Code = "Ok", Message = "Login Successful", Data = data });
+            }
+
+            catch(Exception ex)
             {
                 return BadRequest(new ErrorDto
                 {
                     Code = "Error",
-                    Message = LoginConstants.UserNotFound
+                    Message = ex.Message,
                 });
             }
-
-            if (data == LoginConstants.WrongPassword)
-            {
-                return BadRequest(new ErrorDto
-                {
-                    Code = "Error",
-                    Message = LoginConstants.WrongPassword
-                });
-            }
-
-            return Ok(new ErrorDto{Code = "Ok", Message = "Login Successful", Data = data });
+            
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto input)
         {
-            await _userProfileService.Register(input);
+            try
+            {
+                await _userProfileService.Register(input);
 
-            return Ok(new ErrorDto { Code = "Ok", Message = "Register Successful"});
+                return Ok(new ErrorDto { Code = "Ok", Message = "Register Successful" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorDto
+                {
+                    Code = "Error",
+                    Message = ex.Message,
+                });
+            }
         }
 
     }
