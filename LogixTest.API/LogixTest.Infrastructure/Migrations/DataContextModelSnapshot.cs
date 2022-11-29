@@ -41,7 +41,7 @@ namespace LogixTest.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("LogixTest.Domain.Domain.MovieTransaction", b =>
@@ -64,7 +64,7 @@ namespace LogixTest.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("MovieTransactions", (string)null);
+                    b.ToTable("MovieTransactions");
                 });
 
             modelBuilder.Entity("LogixTest.Domain.Domain.UserProfile", b =>
@@ -77,13 +77,13 @@ namespace LogixTest.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("PasswordSalt")
+                    b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -91,7 +91,7 @@ namespace LogixTest.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProfiles", (string)null);
+                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("LogixTest.Domain.Domain.MovieTransaction", b =>

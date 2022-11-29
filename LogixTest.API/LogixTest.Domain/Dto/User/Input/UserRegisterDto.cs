@@ -2,7 +2,7 @@
 
 namespace LogixTest.Domain.Dto.User.Input
 {
-    public class UserLoginDto
+    public class UserRegisterDto
     {
         [JsonProperty("user_name")]
         public string UserName { get; set; } = string.Empty;

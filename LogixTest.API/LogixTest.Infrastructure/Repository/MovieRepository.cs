@@ -6,10 +6,8 @@ namespace LogixTest.Infrastructure.Repository
     public interface IMovieRepository
     {
         Task<List<Movie>> Get(string userName);
-        Task CreateTransaction(MovieTransaction transaction);
         Task<MovieTransaction> GetById(Guid id);
-        void UpdateStatus(MovieTransaction transaction);
-        Task Save();
+        Task UpdateStatus(MovieTransaction transaction);
     }
     public class MovieRepository : IMovieRepository
     {
@@ -27,13 +25,9 @@ namespace LogixTest.Infrastructure.Repository
             return query;
         }
 
-        public void UpdateStatus(MovieTransaction transaction)
+        public async Task UpdateStatus(MovieTransaction transaction)
         {
             _context.Entry(transaction).State = EntityState.Modified;
-        }
-
-        public async Task Save()
-        {
             await _context.SaveChangesAsync();
         }
 
@@ -43,9 +37,5 @@ namespace LogixTest.Infrastructure.Repository
             return query ?? null;
         }
 
-        public Task CreateTransaction(MovieTransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

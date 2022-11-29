@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogixTest", "LogixTest\LogixTest.csproj", "{E099FDB5-A2A0-416C-A0A7-DB3D41C22BFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogixTest", "LogixTest\LogixTest.csproj", "{E099FDB5-A2A0-416C-A0A7-DB3D41C22BFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogixTest.Infrastructure", "LogixTest.Infrastructure\LogixTest.Infrastructure.csproj", "{D5171E70-F4F6-4F05-B5A3-25531BC05214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogixTest.Infrastructure", "LogixTest.Infrastructure\LogixTest.Infrastructure.csproj", "{D5171E70-F4F6-4F05-B5A3-25531BC05214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogixTest.Domain", "LogixTest.Domain\LogixTest.Domain.csproj", "{8CA45E21-0E5C-4939-9C37-BBB412FF8CBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogixTest.Domain", "LogixTest.Domain\LogixTest.Domain.csproj", "{8CA45E21-0E5C-4939-9C37-BBB412FF8CBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogixTest.Shared", "LogixTest.Shared\LogixTest.Shared.csproj", "{B31415B1-8BA7-41E5-9731-219997914EE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{8CA45E21-0E5C-4939-9C37-BBB412FF8CBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CA45E21-0E5C-4939-9C37-BBB412FF8CBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CA45E21-0E5C-4939-9C37-BBB412FF8CBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B31415B1-8BA7-41E5-9731-219997914EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B31415B1-8BA7-41E5-9731-219997914EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B31415B1-8BA7-41E5-9731-219997914EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B31415B1-8BA7-41E5-9731-219997914EE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

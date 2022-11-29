@@ -1,5 +1,9 @@
-﻿using LogixTest.Domain.Dto.User;
+﻿using AutoMapper;
+using LogixTest.Domain.Domain;
+using LogixTest.Domain.Dto.User;
 using LogixTest.Domain.Dto.User.Input;
+using LogixTest.Infrastructure.Repository;
+using LogixTest.Shared.Constants;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,29 +12,77 @@ using System.Text;
 
 namespace LogixTest.Services
 {
-    public interface IAuthService
+    public interface IUserProfileService
     {
-        Task<UserTokenDto> Login(UserLoginDto input);
+        Task<object> Login(UserLoginDto input);
+        Task Register(UserRegisterDto input);
     }
-    public class AuthService : IAuthService
+    public class UserProfileService : IUserProfileService
     {
         private readonly IConfiguration _config;
+        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IMapper _mapper;
 
-        public AuthService(IConfiguration config)
+        public UserProfileService(IConfiguration config, IUserProfileRepository userProfileRepository, IMapper mapper)
         {
             _config = config;
+            _userProfileRepository = userProfileRepository;
+            _mapper = mapper;
+        }
+
+
+        public async Task<object> Login(UserLoginDto input)
+        {
+            var query = await _userProfileRepository.Get(input.UserName, input.Email);
+
+            if (query == null)
+            {
+                return LoginConstants.UserNotFound;
+            }
+
+            if(!VerifyPasswordHash(input.Password, query.PasswordHash, query.PasswordSalt))
+            {
+                return LoginConstants.WrongPassword;
+            }
+
+            var user = _mapper.Map<UserProfile, UserProfileDto>(query);
+
+            string token = CreateToken(user);
+
+            return new UserTokenDto
+            {
+                Email = user.Email,
+                UserName = user.UserName,
+                Token = token
+            };
+        }
+
+        public async Task Register(UserRegisterDto input)
+        {
+            CreatePasswordHash(input.UserName, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var user = new UserProfile
+            {
+                Email = input.Email,
+                UserName = input.UserName,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
+
+            await _userProfileRepository.Register(user);
         }
 
 
         #region Utilities
 
-        public string CreateToken(UserProfileDto user)
+        private string CreateToken(UserProfileDto user)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, "Admin")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Authentication:JwtBearer:SecurityKey"]));
@@ -42,7 +94,7 @@ namespace LogixTest.Services
                 Issuer = _config["Authentication:JwtBearer:Issuer"],
                 Audience = _config["Authentication:JwtBearer:Audience"],
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
 
@@ -53,10 +105,7 @@ namespace LogixTest.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public Task<UserTokenDto> Login(UserLoginDto input)
-        {
-            throw new NotImplementedException();
-        }
+
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {

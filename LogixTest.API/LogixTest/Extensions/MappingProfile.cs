@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using LogixTest.Domain.Domain;
+using LogixTest.Domain.Dto.User;
 
 namespace LogixTest.Extensions
 {
@@ -6,7 +8,7 @@ namespace LogixTest.Extensions
     {
         public MappingProfile()
         {
-
+            CreateMap<UserProfileDto, UserProfile>().ReverseMap();
         }
     }
 }

@@ -1,22 +1,35 @@
 ﻿using LogixTest.Domain.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace LogixTest.Infrastructure.Repository
 {
     public interface IUserProfileRepository
     {
-        Task<UserProfile> Get(string userName, string email, string passwordHash);
-        Task Add(UserProfile user);
+        Task<UserProfile> Get(string userName, string email);
+        Task Register(UserProfile user);
     }
     public class UserProfileRepository : IUserProfileRepository
     {
-        public Task Add(UserProfile user)
+        private readonly DataContext _context;
+
+        public UserProfileRepository(DataContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<UserProfile> Get(string userName, string email, string passwordHash)
+        public async Task Register(UserProfile user)
         {
-            throw new NotImplementedException();
+            _context.UserProfiles.Add(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<UserProfile> Get(string userName, string email)
+        {
+            var query = await _context.UserProfiles.
+                FirstOrDefaultAsync(p => 
+                p.UserName == userName || p.Email == email);
+
+            return query;
         }
     }
 }

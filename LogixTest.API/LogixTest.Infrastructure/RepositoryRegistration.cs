@@ -11,9 +11,10 @@ namespace LogixTest.Infrastructure
 {
     public static class RepositoryRegistration
     {
-        public static void AddInfratructure(this IServiceCollection services, IConfiguration config)
+        public static void AddInfratructure(this IServiceCollection services)
         {
             services.AddTransient<IMovieRepository, MovieRepository>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
         }
     }
 }
