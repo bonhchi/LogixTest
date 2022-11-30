@@ -13,7 +13,7 @@ namespace LogixTest.Extensions
         {
             CreateMap<UserProfileDto, UserProfile>().ReverseMap();
 
-            CreateMap<Movie, MovieDto>();
+            CreateMap<Movie, MovieDto>().ReverseMap();
 
             CreateMap<MovieTransaction, MovieTransactionDto>();
 

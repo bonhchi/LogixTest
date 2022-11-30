@@ -6,7 +6,8 @@ namespace LogixTest.Infrastructure.Repository
     public interface IMovieRepository
     {
         Task<List<Movie>> Get();
-        Task<MovieTransaction> GetById(Guid id);
+        Task<Movie> GetMovieById(Guid id);
+        Task<MovieTransaction> GetTransactionById(Guid id);
         Task UpdateStatus(MovieTransaction transaction);
         Task AddStatus(MovieTransaction transaction);
     }
@@ -32,7 +33,7 @@ namespace LogixTest.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public Task<MovieTransaction> GetById(Guid id)
+        public Task<MovieTransaction> GetTransactionById(Guid id)
         {
             var query = _context.MovieTransactions.FirstOrDefaultAsync(x => x.Id == id);
             return query;
@@ -42,6 +43,12 @@ namespace LogixTest.Infrastructure.Repository
         {
             _context.MovieTransactions.Add(transaction);
             await _context.SaveChangesAsync();
+        }
+
+        public Task<Movie> GetMovieById(Guid id)
+        {
+            var query = _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
+            return query;
         }
     }
 }

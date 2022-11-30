@@ -10,7 +10,8 @@ namespace LogixTest.Services
     public interface IMovieService
     {
         Task<List<MovieDto>> Get();
-        Task<MovieTransactionDto> GetById(Guid id);
+        Task<MovieTransactionDto> GetTransactionById(Guid id);
+        Task<MovieDto> GetMovieById(Guid id);
         Task UpdateStatus(UpdateMovieTransactionDto transaction);
         Task AddStatus(AddMovieTransactionDto transaction);
     }
@@ -28,6 +29,7 @@ namespace LogixTest.Services
         public async Task AddStatus(AddMovieTransactionDto transaction)
         {
             var mapping = _mapper.Map<AddMovieTransactionDto, MovieTransaction>(transaction);
+
             await _movieRepository.AddStatus(mapping);
         }
 
@@ -40,18 +42,27 @@ namespace LogixTest.Services
             return data;
         }
 
-        public async Task<MovieTransactionDto> GetById(Guid id)
+        public async Task<MovieTransactionDto> GetTransactionById(Guid id)
         {
-            var query = await _movieRepository.GetById(id);
+            var query = await _movieRepository.GetTransactionById(id);
 
             var data = _mapper.Map<MovieTransaction, MovieTransactionDto>(query);
 
             return data;
         }
 
+        public async Task<MovieDto> GetMovieById(Guid id)
+        {
+            var query = await _movieRepository.GetMovieById(id);
+
+            var data = _mapper.Map<Movie, MovieDto>(query);
+
+            return data;
+        }
+
         public async Task UpdateStatus(UpdateMovieTransactionDto transaction)
         {
-            var query = await _movieRepository.GetById(transaction.Id);
+            var query = await _movieRepository.GetTransactionById(transaction.Id);
 
             var data = new MovieTransaction
             {
